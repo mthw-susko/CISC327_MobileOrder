@@ -1,0 +1,214 @@
+# Holds the DatastoreEntities for the Resturaunts, customers, orders, and menu items
+class Restaurant:
+    '''Datastore entity that contains restaurant details'''
+
+    def __init__(self, id, name, menuItems, kitchenDelay):
+        self.id = id
+        self.name = name
+        self.menuItems = menuItems
+        self.kitchenDelay = kitchenDelay
+
+    def getRestaurantName(self):
+        return self.name
+
+    def setRestaurantName(self, name):
+        if isinstance(name, str):
+            self.name = name
+            return True
+        else:
+            return False
+
+    def getMenuItems(self):
+        return self.menuItems
+
+    def setMenuItems(self, items):
+        if isinstance(items, list):
+            self.menuItems = items
+            return True
+        else:
+            return False
+
+    def increaseDelay(self):
+        self.kitchenDelay += 1
+        return self.kitchenDelay
+    
+    def decreaseDelay(self):
+        self.kitchenDelay -= 1
+        return self.kitchenDelay
+
+
+
+class Customer:
+    '''Datastore entity that contains customer details'''
+    
+    def __init__(self, id, name, username, password, email, address, creditCardInfo):
+        self.id = id
+        self.name = name
+        self.username = username
+        self.password = password
+        self.email = email
+        self.address = address
+        self.creditCardInfo = creditCardInfo
+
+    def getName(self):
+        return self.name
+
+    def setName(self, name):
+        if isinstance(name, str):
+            self.name = name
+            return True
+        else:
+            return False
+
+    def getUsername(self):
+        return self.username
+
+    def setUsername(self, username):
+        if isinstance(username, str):
+            self.username = username
+            return True
+        else:
+            return False
+
+    def getPassword(self):
+        return self.password
+
+    def setPassword(self, password):
+        if isinstance(password, str):
+            self.password = password
+            return True
+        else:
+            return False
+
+    def getEmail(self):
+        return self.email
+
+    def setEmail(self, email):
+        if isinstance(email, str):
+            self.email = email
+            return True
+        else:
+            return False
+
+    def getAddress(self):
+        return self.address
+
+    def setAddress(self, address):
+        if isinstance(address, str):
+            self.address = address
+            return True
+        else:
+            return False
+
+    def getCreditCardInfo(self):
+        return self.creditCardInfo
+
+    def setCreditCardInfo(self, ccInfo):
+        if isinstance(ccInfo, str):
+            self.creditCardInfo = ccInfo
+            return True
+        else:
+            return False
+
+
+class Order:
+    '''Datastore entity that contains customer order'''
+
+    def __init__(self, id, customerId, Items, orderStatus, totalPrice):
+        self.id = id
+        self.customerId = customerId
+        self.Items = Items
+        self.orderStatus = orderStatus
+        self.totalPrice = totalPrice
+
+    def getCustomerId(self):
+        return self.customerId
+
+    def setCustomerId(self, id):
+        if isinstance(id, int):
+            self.customerId = id
+            return True
+        else:
+            return False
+
+    def getOrderItems(self):
+        return self.Items
+
+    def setOrderItems(self, items):
+        if isinstance(items, list):
+            self.Items = items
+            return True
+        else:
+            return False
+
+    def getOrderStatus(self):
+        return self.orderStatus
+
+    def setOrderStatus(self, status):
+        if isinstance(status, str):
+            self.orderStatus = status
+            return True
+        else:
+            return False
+
+    def getTotalPrice(self):
+        return self.totalPrice
+
+    def setTotalPrice(self, price):
+        if isinstance(price, int):
+            self.totalPrice = price
+            return True
+        else:
+            return False
+
+
+
+class MenuItem:
+    '''Datastore entity that contains info for a food item on a menu'''
+
+    def __init__(self, id, name, description, calories, price):
+        self.id = id
+        self.name = name
+        self.description = description
+        self.calories = calories
+        self.price = price
+
+    def getName(self):
+        return self.name
+
+    def setName(self, name):
+        if isinstance(name, str):
+            self.name = name
+            return True
+        else:
+            return False
+
+    def getPrice(self):
+        return self.price
+
+    def setPrice(self, price):
+        if isinstance(price, int):
+            self.price = price
+            return True
+        else:
+            return False
+
+    def getDescription(self):
+        return self.description
+
+    def setDescription(self, description):
+        if isinstance(description, str):
+            self.description = description
+            return True
+        else:
+            return False
+
+    def getCalories(self):
+        return self.calories
+
+    def setCalories(self, calories):
+        if isinstance(calories, int):
+            self.calories = calories
+            return True
+        else:
+            return False
