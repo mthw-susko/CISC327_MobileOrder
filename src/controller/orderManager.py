@@ -21,7 +21,7 @@ class OrderManager:
             return False
 
     def calculateTotalOrderPrice(self):
-        total_price = sum(item['price'] for item in self.cart)
+        total_price = sum(item.price for item in self.cart)
         return float(total_price)
 
     def addToCart(self, item):
