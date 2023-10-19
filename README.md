@@ -1,4 +1,4 @@
-# CMPE-327---Software-Quality-Assurance
+# CISC-327---Software-Quality-Assurance
 
 ## Filestructure
 
