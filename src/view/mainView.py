@@ -1,4 +1,5 @@
 import os
+import time
 from model.restaurant import Restaurant
 from model.menuItem import MenuItem
 from view.restaurantView import RestaurantView
@@ -31,13 +32,19 @@ class MainView:
                 # exit the ordering program
                 if choice == 0:
                     print("Exiting...")
-                    break
+                    time.sleep(2)
+                    exit()
                 # choose an available restaurant and navigate to it
                 elif 1 <= choice <= len(self.restaurants):
-                    print(f"You have chosen: {self.restaurants[choice - 1]}")
+                    print(
+                        f"You have chosen: {self.restaurants[choice - 1].name}")
+                    time.sleep(1)
                     self.viewManager.changeView(
                         RestaurantView(self.viewManager, self.orderManager, self.restaurants[choice - 1], self))
+
                 else:
                     print("Invalid input. Please choose a valid option.")
+                    time.sleep(1)
             except ValueError:
                 print("Invalid input. Please enter a number.")
+                time.sleep(1)

@@ -11,24 +11,24 @@ class OrderView:
         self.name = "Order View"
 
     def viewApp(self):
-        # no items have been added to the cart
-        if not self.orderManager.cart:
-            print("Your cart is empty.")
-            while True:
+        # get user input
+        while True:
+            os.system('clear')
+            # displays all the items in the cart
+            if not self.orderManager.cart:
+                print("Your cart is empty.")
                 try:
                     choice = int(input("Enter any number to exit: "))
                     # if an integer is entered then exit back to the restaruant view
                     if isinstance(choice, int):
+                        print("Exiting...")
+                        time.sleep(2)
                         self.viewManager.changeView(self.lastView)
                         break
                 except ValueError:
                     print("Invalid input. Please enter a number.")
-        # there are items in the cart
-        else:
-            # get user input
-            while True:
-                os.system('clear')
-                # displays all the items in the cart
+                    time.sleep(2)
+            else:
                 print("Your current order...")
                 for i, item in enumerate(self.orderManager.cart, start=1):
                     print(
@@ -42,14 +42,16 @@ class OrderView:
                     # exit back to restaurant view
                     if choice == -1:
                         print("Exiting...")
+                        time.sleep(2)
                         self.viewManager.changeView(self.lastView)
                         break
                     # remove chosen item from cart
                     elif 1 <= choice <= len(self.orderManager.cart):
                         print(
-                            f"You have chosen to remove: {self.orderManager.cart[choice - 1].name}")
+                            f"You have removed: {self.orderManager.cart[choice - 1].name}")
                         self.orderManager.removeFromCart(
                             self.orderManager.cart[choice - 1])
+                        time.sleep(2)
                     # check out and submit order
                     elif choice == 0:
                         print("Checking Out...")
@@ -72,10 +74,11 @@ class OrderView:
                         # order not successfully submitted
                         else:
                             print("Error Submitting Order...")
-
                     # catch case if invalid input is given
                     else:
                         print("Invalid input. Please choose a valid option.")
+                        time.sleep(2)
                 # catch case if invalid input is given
                 except ValueError:
                     print("Invalid input. Please enter a number.")
+                    time.sleep(2)
