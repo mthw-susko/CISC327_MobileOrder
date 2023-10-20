@@ -10,6 +10,7 @@ class OrderView:
         self.lastView = lastView
         self.name = "Order View"
 
+    # Main view method for orders
     def viewApp(self):
         # get user input
         while True:

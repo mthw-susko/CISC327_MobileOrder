@@ -11,6 +11,7 @@ class RestaurantView:
         self.lastView = lastView
         self.name = "Restaurant View"
 
+    # main view method for restaurants
     def viewApp(self):
         print(f"Welcome to {self.restaurant.name}!")
 

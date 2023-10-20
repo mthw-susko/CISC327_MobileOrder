@@ -17,8 +17,10 @@ class MainView:
         self.orderManager = orderManager
         self.name = "Main View"
 
+    # main view method for inital main view
     def viewApp(self):
         while True:
+            # display welcome text
             os.system('clear')
             print("Welcome to the Restaurant Selector!")
             print("Please choose a restaurant from the list below:")
