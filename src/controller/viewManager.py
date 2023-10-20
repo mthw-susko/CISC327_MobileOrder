@@ -1,14 +1,16 @@
 class ViewManager:
     def __init__(self):
+        # Attributes
         self.currentView = None
         self.nextView = None
 
     def changeView(self, view):
-        # TODO: add validation to make sure the view given is a valid view
+        # Handles routing of views (abstraction)
         self.nextView = view
         self.redirectToNextView()
 
     def redirectToNextView(self):
+        # Helper function that contains logic for routing
         if self.nextView is not None:
             self.currentView = self.nextView
             self.nextView = None

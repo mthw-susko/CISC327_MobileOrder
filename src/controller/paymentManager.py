@@ -1,6 +1,6 @@
 class PaymentManager:
     def processPayment(self, creditCardInfo):
-        # Add in the logic for processing.
+        # Logic for payment processing
         if self.validateCreditCard(creditCardInfo):
             # Payment was successfully processed
             print("Payment processed successfully.")
@@ -11,5 +11,5 @@ class PaymentManager:
             return False
 
     def validateCreditCard(self, creditCardInfo):
-        # Add in the logic for validation. Regex maybe? Can push to backend prototyping?
+        # Validation
         return bool(creditCardInfo)
