@@ -4,11 +4,12 @@ from view.orderView import OrderView
 
 
 class RestaurantView:
-    def __init__(self, viewManager, orderManager, restaurant, lastView):
+    def __init__(self, viewManager, orderManager, restaurant, lastView, user):
         self.restaurant = restaurant
         self.orderManager = orderManager
         self.viewManager = viewManager
         self.lastView = lastView
+        self.loggedIn = user
         self.name = "Restaurant View"
 
     # main view method for restaurants
@@ -56,9 +57,9 @@ class RestaurantView:
                     # goes to view the current order view
                     elif choice == 0:
                         print("Going to Order View...")
-                        time.sleep(2)
+                        time.sleep(1)
                         self.viewManager.changeView(
-                            OrderView(self.viewManager, self.orderManager, self))
+                            OrderView(self.viewManager, self.orderManager, self, self.loggedIn))
                         break
                     # catch case if invalid input is given
                     else:
