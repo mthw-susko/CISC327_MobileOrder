@@ -1,13 +1,18 @@
 import os
 import time
 import re
+# Model imports
 from model.restaurant import Restaurant
 from model.menuItem import MenuItem
+# Helper imports
 from db.customerDbHelper import CustomerDbHelper
 from db.restaurantDbHelper import RestaurantDbHelper
 from view.restaurantView import RestaurantView
+# Manager imports
 from controller.viewManager import ViewManager
 from controller.orderManager import OrderManager
+# Helper imports
+from helper.format import Format
 
 
 class MainView:
@@ -31,8 +36,9 @@ class MainView:
         while True:
             # display welcome text
             os.system('clear')
-            print("Welcome {}!".format(self.loggedIn["name"]))
-            print("Please choose a restaurant from the list below:")
+            message = "Welcome {}!".format(self.loggedIn["name"])
+            Format.welcomeMessage(message)
+            Format.subheaderFormat("Please choose a restaurant from the list below:")
 
             # display restaurants
             for i, restaurant in enumerate(self.restaurants, start=1):
@@ -73,8 +79,8 @@ class MainView:
         while True:
             # print a welcome message
             os.system('clear')
-            print("Welcome to the registration for the Restaurant Selector")
-            print("Please follow the instructions to create an account")
+            Format.welcomeMessage("Welcome to the registration for the Restaurant Selector")
+            Format.subheaderFormat("Please follow the instructions to create an account")
 
             # input new user details
             userDetails = input(
@@ -109,7 +115,7 @@ class MainView:
                     customerDb.addCustomer(name,
                                            userList[0], userList[2], userList[1], userAddress, userPayment.split(":"))
 
-                    # upadte list of users
+                    # update list of users
                     self.users = customerDb.getCustomers()
 
                     # add new logged in user
@@ -127,8 +133,8 @@ class MainView:
         self.loggedIn = {}
         while True:
             os.system('clear')
-            print("Welcome to the Restaurant Selector!")
-            print("Please enter your username followed by your passoword to signin (press Enter to register or 0 to exit)")
+            Format.welcomeMessage("Welcome to the Restaurant Selector!")
+            Format.subheaderFormat("Please enter your username followed by your password to sign in (press Enter to register or 0 to exit)")
 
             try:
                 # get username input
