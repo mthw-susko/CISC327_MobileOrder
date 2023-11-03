@@ -4,6 +4,8 @@
 
 > Folder structure of our project
 
+#### Top Level Directory Layout
+
 ```terminal
 .
 ├── src                     # Source files (all the codes)
