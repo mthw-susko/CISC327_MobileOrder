@@ -9,4 +9,4 @@ if __name__ == "__main__":
     #
     # To run the application, just run this file.
     mainView = MainView()
-    mainView.viewApp()
+    mainView.loginView()

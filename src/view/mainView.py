@@ -1,7 +1,10 @@
 import os
 import time
+import re
 from model.restaurant import Restaurant
 from model.menuItem import MenuItem
+from db.customerDbHelper import CustomerDbHelper
+from db.restaurantDbHelper import RestaurantDbHelper
 from view.restaurantView import RestaurantView
 from controller.viewManager import ViewManager
 from controller.orderManager import OrderManager
@@ -10,39 +13,53 @@ from controller.orderManager import OrderManager
 class MainView:
 
     def __init__(self, viewManager=ViewManager(), orderManager=OrderManager()):
-        # dummy data for showing funcitonality
-        self.restaurants = [Restaurant(1, "Pizza Place", [MenuItem(1, "Cheese", "Cheese Pizza with tomato sauce", 1000, 11.99), MenuItem(
-            2, "Peperoni", "Peperoni Pizza with tomato sauce", 1500, 13.99)], 20)]
+        customerDb = CustomerDbHelper()
+        restaurantDb = RestaurantDbHelper()
+
+        self.restaurants = restaurantDb.getRestaurants()
+
+        # get customer data from database
+        self.users = customerDb.getCustomers()
+        self.loggedIn = {}
         self.viewManager = viewManager
         self.orderManager = orderManager
         self.name = "Main View"
 
     # main view method for inital main view
+
     def viewApp(self):
         while True:
             # display welcome text
             os.system('clear')
-            print("Welcome to the Restaurant Selector!")
+            print("Welcome {}!".format(self.loggedIn["name"]))
             print("Please choose a restaurant from the list below:")
 
+            # display restaurants
             for i, restaurant in enumerate(self.restaurants, start=1):
                 print(f"{i}. {restaurant.name}")
 
             try:
+                # get choice input
                 choice = int(
                     input("Enter the number of your chosen restaurant (or 0 to exit): "))
+
                 # exit the ordering program
                 if choice == 0:
                     print("Exiting...")
                     time.sleep(2)
-                    exit()
+                    self.loginView()
+
                 # choose an available restaurant and navigate to it
                 elif 1 <= choice <= len(self.restaurants):
+
+                    # display which restaurant you have chosen
                     print(
                         f"You have chosen: {self.restaurants[choice - 1].name}")
                     time.sleep(1)
+
+                    # change view
                     self.viewManager.changeView(
-                        RestaurantView(self.viewManager, self.orderManager, self.restaurants[choice - 1], self))
+                        RestaurantView(self.viewManager, self.orderManager, self.restaurants[choice - 1], self, self.loggedIn))
 
                 else:
                     print("Invalid input. Please choose a valid option.")
@@ -50,3 +67,160 @@ class MainView:
             except ValueError:
                 print("Invalid input. Please enter a number.")
                 time.sleep(1)
+
+    def registerView(self):
+        self.loggedIn = {}
+        while True:
+            # print a welcome message
+            os.system('clear')
+            print("Welcome to the registration for the Restaurant Selector")
+            print("Please follow the instructions to create an account")
+
+            # input new user details
+            userDetails = input(
+                "Enter the user details as follows, 'username:email:password' (or 0 to exit) : ")
+
+            # exits back to login view
+            if userDetails == "0":
+                print("Exiting...")
+                time.sleep(1)
+                self.loginView()
+
+            # input payment info
+            userPayment = input(
+                "Enter the payment detials as follows 'paymentType:cardNumber:MM/YY:CVV' : ")
+
+            # making sure input is valid
+            if userDetails.count(":") == 2 and userPayment.count(":") == 3:
+                userList = userDetails.split(":")
+
+                # get user address
+                userAddress = input(
+                    "Enter address associated with this account: ")
+
+                # real name of user
+                name = input(
+                    "Enter your real name associated with this account: ")
+
+                # validating account inputs
+                if self.validateLogin(userList[0], userList[1], userList[2]):
+                    # add new customer to database
+                    customerDb = CustomerDbHelper()
+                    customerDb.addCustomer(name,
+                                           userList[0], userList[2], userList[1], userAddress, userPayment.split(":"))
+
+                    # upadte list of users
+                    self.users = customerDb.getCustomers()
+
+                    # add new logged in user
+                    self.loggedIn = {
+                        "username": userList[0], "creditCardInfo": userPayment.split(":"), "id": customerDb.getCustomerId(userList[0]), "name": name}
+
+                    # go to main view of app
+                    self.viewApp()
+
+            else:
+                print("Invalid Input. Please try again...")
+                time.sleep(1)
+
+    def loginView(self):
+        self.loggedIn = {}
+        while True:
+            os.system('clear')
+            print("Welcome to the Restaurant Selector!")
+            print("Please enter your username followed by your passoword to signin (press Enter to register or 0 to exit)")
+
+            try:
+                # get username input
+                username = input(
+                    "Enter username (press Enter to create an account or 0 to exit): ")
+
+                # exit program
+                if username == "0":
+                    print("Exiting...")
+                    time.sleep(1)
+                    exit()
+
+                # go to register view
+                if len(username) == 0:
+                    self.registerView()
+
+                password = input("Enter password: ")
+
+                # validate username and password are with a valid account
+                if username in self.users and self.users[username] == password:
+                    print("Successful login")
+                    customerDb = CustomerDbHelper()
+                    creditCardInfo = customerDb.getCreditCardInfo(username)
+                    userId = customerDb.getCustomerId(username)
+                    name = customerDb.getCustomerName(username)
+                    self.loggedIn = {
+                        "username": username, "creditCardInfo": creditCardInfo, "id": userId, "name": name}
+
+                    self.viewApp()
+
+                # username does not exist
+                elif username not in self.users:
+                    print("Username does not exist")
+                    time.sleep(1)
+
+                # password is incorrect
+                else:
+                    print("Incorrect Password")
+                    time.sleep(1)
+
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+                time.sleep(1)
+
+    # validate login info
+
+    def validateLogin(self, username, email, password):
+        if len(username) != 0:
+            if len(email) != 0:
+                if len(password) != 0:
+                    # verify the username isn't already taken
+                    if username not in self.users:
+                        emailPattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+                        uppercase_regex = r'[A-Z]'
+                        lowercase_regex = r'[a-z]'
+                        number_regex = r'[0-9]'
+
+                        # verify the email is good
+                        if re.match(emailPattern, email):
+                            # verify passowrd is good
+                            if re.search(uppercase_regex, password):
+                                if re.search(lowercase_regex, password):
+                                    if re.search(number_regex, password):
+                                        print("User Registered Successfully")
+                                        time.sleep(1)
+                                        return True
+                                    else:
+                                        print(
+                                            "Password must contain at least one number")
+                                        time.sleep(1)
+                                else:
+                                    print(
+                                        "Password must contain at least one lowercase letter")
+                                    time.sleep(1)
+                            else:
+                                print(
+                                    "Password must contain at least one uppercase letter")
+                                time.sleep(1)
+                        else:
+                            print("Invalid email entered")
+                            time.sleep(1)
+                    else:
+                        print("Username has been taken")
+                        time.sleep(1)
+                else:
+                    print("Missing password")
+                    time.sleep(1)
+            else:
+                print("Missing email")
+                time.sleep(1)
+        else:
+            print("Missing username")
+            time.sleep(1)
+
+        return False
