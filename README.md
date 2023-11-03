@@ -34,5 +34,17 @@
 
 > How to run our project
 
+```terminal
+Run main.py file
+```
+
+> If you don't want to create your own account, premade accounts are as follows
+
+```terminal
+username: Jabezng1, password: Hello100
+username: Matthewsusko2, password: Hello101
+username: Aidenhennigar3, password: Hello102
+```
+
 ## A0 - Team Contract
 Team formation completed. Team contract signed. [MIT License](https://github.com/mthw-susko/CISC327_MobileOrder/blob/main/LICENSE) chosen for repository. The contract can be found here: [Team Contract](https://github.com/mthw-susko/CISC327_MobileOrder/blob/main/A0%20-%20Team-Contract/Assignment0.pdf)
