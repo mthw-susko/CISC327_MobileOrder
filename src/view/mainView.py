@@ -97,8 +97,8 @@ class MainView:
                 "Enter the payment detials as follows 'paymentType:cardNumber:MM/YY:CVV' : ")
 
             # making sure input is valid
-            if userDetails.count(":") == 2 and userPayment.count(":") == 3:
-                userList = userDetails.split(":")
+            pattern = re.compile(r'^(credit|debit):([1-9]\d{15}):(0[1-9]|1[0-2])\/(2[4-9]|3[0-9]):\d{3,4}$')
+            if pattern.match(userPayment):
 
                 # get user address
                 userAddress = input(
