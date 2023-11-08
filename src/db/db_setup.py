@@ -9,7 +9,7 @@ customer_data = [
     (2, "Matthew", "Matthewsusko2", "Hello101", "matthewsusko2@gmail.com",
      "Queens University 1", "['CreditCard', 2468101214, '12/26', 246]"),
     (3, "Aiden", "Aidenhennigar3", "Hello102", "aidenhennigar3@gmail.com",
-     "Queens University 2", "['DebitCard', 01987654321, '12/27', 369]")
+     "Queens University 2", "['DebitCard', 31987654321, '12/27', 369]")
 ]
 
 restaurant_data = [
