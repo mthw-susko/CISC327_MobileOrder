@@ -85,20 +85,27 @@ class MainView:
             # input new user details
             userDetails = input(
                 "Enter the user details as follows, 'username:email:password' (or 0 to exit) : ")
-
+            
             # exits back to login view
             if userDetails == "0":
                 print("Exiting...")
                 time.sleep(1)
                 self.loginView()
+            
+            #making sure email input is valid
+            detailsPattern = re.compile(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
+            if not detailsPattern.match(userDetails.split(":")[0]):
+                print("Invalid Email. Please try again...")
+                time.sleep(1)
+                self.registerView()
 
             # input payment info
             userPayment = input(
                 "Enter the payment detials as follows 'paymentType:cardNumber:MM/YY:CVV' : ")
 
             # making sure input is valid
-            pattern = re.compile(r'^(credit|debit):([1-9]\d{15}):(0[1-9]|1[0-2])\/(2[4-9]|3[0-9]):\d{3,4}$')
-            if pattern.match(userPayment):
+            payPattern = re.compile(r'^(credit|debit):([1-9]\d{15}):(0[1-9]|1[0-2])\/(2[4-9]|3[0-9]):\d{3,4}$')
+            if payPattern.match(userPayment):
 
                 # get user address
                 userAddress = input(
