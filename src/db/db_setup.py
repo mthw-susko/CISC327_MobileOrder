@@ -30,7 +30,7 @@ menu_item_data = [
 ]
 
 # Connect to the database
-connection = sqlite3.connect('dataBase.db')
+connection = sqlite3.connect('src/dataBase.db')
 cursor = connection.cursor()
 
 # Define SQL statements to insert data to tables
