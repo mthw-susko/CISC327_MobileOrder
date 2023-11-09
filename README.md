@@ -49,7 +49,7 @@ username: Aidenhennigar3, password: Hello102
 > How to run the tests
 ```terminal
 Go to the test directory and run:
-pytest -v loginTest.py paymentTest.py
+pytest -v loginTest.py paymentTest.py coreFunctionTest.py
 ```
 
 ## A0 - Team Contract
