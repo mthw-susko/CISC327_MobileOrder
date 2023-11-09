@@ -25,49 +25,45 @@ class PaymentManager:
         if len(str(cardNumber)) == 0:
             print("Card Number has not been entered")
             valid = False
-            time.sleep(1)
 
         # card number validation
         if len(str(cardNumber)) < 16 or len(str(cardNumber)) > 16:
             print("Your card number is invalid")
             valid = False
-            time.sleep(1)
 
         # no expiry date
         if int(expiryDate.split("/")[0]) < 1:
             print("Your card's expiration date is invalid")
             valid = False
-            time.sleep(1)
 
         # expiry date not valid
         if int(expiryDate.split("/")[0]) > 12:
             print("Your card's expiration date is invalid")
             valid = False
-            time.sleep(1)
 
         # expiry date not valid
         if expiryDate == "12/23":
             print("Your card's expiration date is invalid")
             valid = False
-            time.sleep(1)
 
         # expiry date not valid
         if len(expiryDate) != 5 and not "/" in expiryDate:
             print("Your card's expiration date is invalid")
             valid = False
-            time.sleep(1)
 
         # no security code
         if len(str(securityCode)) == 0:
             print("Security code has not been entered")
             valid = False
-            time.sleep(1)
 
         # security code invalid
         if len(str(securityCode)) > 4 or len(str(securityCode)) < 3:
             print("Security code is invalid")
             valid = False
-            time.sleep(1)
+        
+        if valid:
+            print("Payment Processed!")
 
         # security code not valid
+        time.sleep(1)
         return valid

@@ -92,12 +92,20 @@ class MainView:
                 time.sleep(1)
                 self.loginView()
 
+            #making sure email input is valid
+            detailsPattern = re.compile(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
+            if not detailsPattern.match(userDetails.split(":")[0]):
+                print("Invalid Email. Please try again...")
+                time.sleep(1)
+                self.registerView()
+
             # input payment info
             userPayment = input(
                 "Enter the payment detials as follows 'paymentType:cardNumber:MM/YY:CVV' : ")
 
             # making sure input is valid
             pattern = re.compile(r'^(credit|debit):([1-9]\d{15}):(0[1-9]|1[0-2])\/(2[4-9]|3[0-9]):\d{3,4}$')
+            userList = userDetails.split(":")
             if pattern.match(userPayment):
 
                 # get user address
@@ -110,6 +118,8 @@ class MainView:
 
                 # validating account inputs
                 if self.validateLogin(userList[0], userList[1], userList[2]):
+                    # time delay for output
+                    time.sleep(1)
                     # add new customer to database
                     customerDb = CustomerDbHelper()
                     customerDb.addCustomer(name,
@@ -154,8 +164,8 @@ class MainView:
                 password = input("Enter password: ")
 
                 # validate username and password are with a valid account
-                if username in self.users and self.users[username] == password:
-                    print("Successful login")
+                if self.tryLogin(username, password):
+                    time.sleep(1)
                     customerDb = CustomerDbHelper()
                     creditCardInfo = customerDb.getCreditCardInfo(username)
                     userId = customerDb.getCustomerId(username)
@@ -165,21 +175,25 @@ class MainView:
 
                     self.viewApp()
 
-                # username does not exist
-                elif username not in self.users:
-                    print("Username does not exist")
-                    time.sleep(1)
-
-                # password is incorrect
-                else:
-                    print("Incorrect Password")
-                    time.sleep(1)
+                # time delay for error message
+                time.sleep(1)
 
             except ValueError:
                 print("Invalid input. Please enter a number.")
                 time.sleep(1)
 
     # validate login info
+    def tryLogin(self, username, password):
+        if username in self.users and self.users[username] == password:
+            print("Successful login")
+            return True
+
+        elif username not in self.users:
+            print("Username does not exist")
+            return False
+        else:
+            print("Incorrect Password")
+            return False
 
     def validateLogin(self, username, email, password):
         if len(username) != 0:
@@ -199,34 +213,25 @@ class MainView:
                                 if re.search(lowercase_regex, password):
                                     if re.search(number_regex, password):
                                         print("User Registered Successfully")
-                                        time.sleep(1)
                                         return True
                                     else:
                                         print(
                                             "Password must contain at least one number")
-                                        time.sleep(1)
                                 else:
                                     print(
                                         "Password must contain at least one lowercase letter")
-                                    time.sleep(1)
                             else:
                                 print(
                                     "Password must contain at least one uppercase letter")
-                                time.sleep(1)
                         else:
                             print("Invalid email entered")
-                            time.sleep(1)
                     else:
                         print("Username has been taken")
-                        time.sleep(1)
                 else:
                     print("Missing password")
-                    time.sleep(1)
             else:
                 print("Missing email")
-                time.sleep(1)
         else:
             print("Missing username")
-            time.sleep(1)
 
         return False

@@ -19,8 +19,7 @@ class OrderView:
             os.system('clear')
 
             # displays all the items in the cart
-            if not self.orderManager.cart:
-                print("Your cart is empty.")
+            if self.cartEmpty(self.orderManager.cart):
                 choice = input("Press Enter to exit...")
 
                 # if an integer is entered then exit back to the restaruant view
@@ -66,30 +65,24 @@ class OrderView:
                         time.sleep(1)
                         finished = self.orderManager.submitOrder()
                         # order had been successfully submitted
-                        if finished:
-                            print("Order Submitted!")
-                            time.sleep(1)
-
+                        if self.submitOrder(finished):
                             # validate payment info
                             paymentProcessed = PaymentManager().processPayment(
                                 self.loggedIn["creditCardInfo"])
 
                             # payment processed correctly and cart emptied
                             if paymentProcessed:
-                                print("Payment Processed!")
                                 time.sleep(1)
 
                                 orderDb = OrderDbHelper()
 
                                 # if no delay, then order is delivered
-                                if self.lastView.restaurant.kitchenDelay == 0:
-                                    print("Order Delivered!")
+                                if self.orderDelivered(self.lastView.restaurant.kitchenDelay):
                                     orderDb.addOrder(
                                         self.loggedIn["id"], self.orderManager.cart, "Delivered", self.orderManager.calculateTotalOrderPrice())
                                     time.sleep(1)
 
                                 else:
-                                    print("Delivery on its way!")
                                     time.sleep(1)
                                     orderDb.addOrder(
                                         self.loggedIn["id"], self.orderManager.cart, "Delivering", self.orderManager.calculateTotalOrderPrice())
@@ -110,3 +103,23 @@ class OrderView:
                 except ValueError:
                     print("Invalid input. Please enter a number.")
                     time.sleep(1)
+
+    def submitOrder(self, finished):
+        if finished:
+            print("Order Submitted!")
+            return True
+        return False
+        
+    def cartEmpty(self, cart):
+        if not cart:
+            print("Your cart is empty")
+            return True
+        return False
+
+    def orderDelivered(self, delay):
+        if delay == 0:
+            print("Order Delivered!")
+            return True
+        print("Delivery on its way!")
+        return False
+
