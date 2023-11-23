@@ -31,7 +31,7 @@ class PaymentManager:
             print("Your card number is invalid")
             valid = False
 
-        # no expiry date
+        # expiry date not valid
         if int(expiryDate.split("/")[0]) < 1:
             print("Your card's expiration date is invalid")
             valid = False
