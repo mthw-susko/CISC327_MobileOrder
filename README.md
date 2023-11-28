@@ -24,6 +24,7 @@
 │   ├── db                 # Database management classes
 │   ├── helper             # Helper classes
 │   ├── model              # Model classes
+│   ├── test               # Pytest files
 │   ├── view               # View/Interface classes
 │   ├── dataBase.db        # Database file (SQLite3)
 │   └── main.py            # Main Driver file
